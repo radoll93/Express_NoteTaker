@@ -1,9 +1,11 @@
 const get = require('express').Router();
-const noteData = require('../db/db.json');
-
+const fs = require('fs');
+const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
 
 get.get('/', (req, res) => {
-    res.json(noteData);
+
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+
 })
 
 

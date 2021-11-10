@@ -1,48 +1,23 @@
 const save = require('express').Router();
 const fs = require('fs');
-
-save.get('/', (req, res) => )
+const { v4: uuidv4 } = require('uuid');
+const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
 
 
 save.post('/', (req, res) => {
 
-    const noteArray = [];
-
-
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
-        if(err) {
-            console.error(err)
-        } else {
-        console.log('reading is done')
-        const parsingData = JSON.parse(data);
-        parsingData.forEach(note => {
-        noteArray.push(note);
-        });
-
-        
-    fs.writeFile('./db/db.json', JSON.stringify(noteArray, null, 4), (err) => {
-        if(err) {
-            console.error(err)
-        } else{
-            console.log('writing is done');
-            console.log(noteArray)
-        }       
-    })}
-    });
-
-
     const {title, text} = req.body;
+  
+      const newNote = {
+          title,
+          text,
+          id: uuidv4()
+      };
+  
+      readAndAppend(newNote, './db/db.json');
 
-    const newnote = {
-        title,
-        text
-    };
+       res.json(newNote);
 
-    noteArray.push(newnote);
-
-
-
-    res.json(newnote);
 })
 
 
