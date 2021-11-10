@@ -4,7 +4,8 @@ const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
 
 get.get('/', (req, res) => {
 
-    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+    
+    fs.readFile('./db/db.json', (err, data) => res.json(JSON.parse(data)))
 
 })
 

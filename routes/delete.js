@@ -1,57 +1,42 @@
 const deletedb = require('express').Router();
 const fs = require('fs');
 
-let id;
+const idArray = []; 
+
+
+fs.readFile('./db/db.json', (err, data) => {
+    if(err) {
+        console.error(err)
+    } else {
+        const parsingData = JSON.parse(data);
+
+            parsingData.forEach(noteobject => {
+            idArray.push(noteobject.id);
+        })
+
+    
+        idArray.forEach(data => {
+            let id =data;
+
+
 
 deletedb.delete(`/${id}`, (req, res) => {
-    
-    
-    readFromFile('./db/db.json').then((data) => {
-        noteId = JSON.parse(data).note_id;
-        res.json(JSON.parse(data))
-    });
 
+    const idIndex = idArray.indexOf(id);
 
-    // const noteArray = [];
+    parsingData.splice(idIndex, 1);
 
+    fs.writeFile('./db/db.json', JSON.stringify(parsingData, null, 4), (err) => 
+              err ? console.error(err) : console.log('delete is done') )
 
-    // fs.readFile('./db/db.json', 'utf8', (err, data) => {
-    //     if(err) {
-    //         console.error(err)
-    //     } else {
-    //     console.log('reading is done')
-    //     const parsingData = JSON.parse(data);
-    //     parsingData.forEach(note => {
-    //     noteArray.push(note);
-    //     });
+    res.json(parsingData);
 
-        
-    // fs.writeFile('./db/db.json', JSON.stringify(noteArray, null, 4), (err) => {
-    //     if(err) {
-    //         console.error(err)
-    //     } else{
-    //         console.log('writing is done');
-    //         console.log(noteArray)
-    //     }       
-    // })}
-    // });
-
-    // noteId
-    // const {title, text} = req.body;
-
-    // const deletenote = {
-    //     title,
-    //     text
-    // };
-
-    // console.log(res.id);
-    // console.log(req.headers)
-
-    // // noteArray.(deletenote);
-
-
-
-    // res.json(deletenote);
 })
+
+})
+
+
+}})
+
 
 module.exports = deletedb;

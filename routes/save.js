@@ -1,7 +1,6 @@
 const save = require('express').Router();
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
 
 
 save.post('/', (req, res) => {
@@ -14,7 +13,17 @@ save.post('/', (req, res) => {
           id: uuidv4()
       };
   
-      readAndAppend(newNote, './db/db.json');
+      fs.readFile('./db/db.json', (err, data) => {
+          if(err) {
+              console.error(err)
+          } else {
+              const parsingData = JSON.parse(data);
+              parsingData.push(newNote);
+
+              fs.writeFile('./db/db.json', JSON.stringify(parsingData, null, 4), (err) => 
+              err ? console.error(err) : console.log('save is done') )
+          }
+      })
 
        res.json(newNote);
 
