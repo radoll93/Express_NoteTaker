@@ -1,28 +1,19 @@
 const deletedb = require('express').Router();
 const fs = require('fs');
 
-const idArray = []; 
-
 
 fs.readFile('./db/db.json', (err, data) => {
-    if(err) {
-        console.error(err)
-    } else {
         const parsingData = JSON.parse(data);
 
-            parsingData.forEach(noteobject => {
-            idArray.push(noteobject.id);
-        })
-
-    
-        idArray.forEach(data => {
-            let id =data;
+        parsingData.forEach(noteobject => {
+            const {id} = noteobject;
 
 
 
 deletedb.delete(`/${id}`, (req, res) => {
+    
 
-    const idIndex = idArray.indexOf(id);
+    const idIndex = parsingData.indexOf(noteobject);
 
     parsingData.splice(idIndex, 1);
 
@@ -36,7 +27,7 @@ deletedb.delete(`/${id}`, (req, res) => {
 })
 
 
-}})
+})
 
 
 module.exports = deletedb;
