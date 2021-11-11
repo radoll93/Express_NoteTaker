@@ -6,6 +6,14 @@
 
 You can create and save notes from the page. The saved notes will be displayed in the left side and if you click the left notes, then it presents to the right column. Also, you can go back to add-note mode by clicking + button at the top.
 
+---
+
+Deployed page : https://mighty-chamber-24179.herokuapp.com/
+
+
+Page Demo ![notetaker](./db/Note_Taker.gif)
+
+---
 
 
 ## Table of Contents 
@@ -49,7 +57,7 @@ nothing
   ---
   To run the test, run the following command:
   
-  ****
+  **no test**
 
   ---
 
